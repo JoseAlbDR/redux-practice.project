@@ -1,12 +1,18 @@
-import { createStore } from "redux";
+import { combineReducers, createStore } from "redux";
 
-const initialState = {
+const initialStateAccount = {
   balance: 0,
   loan: 0,
   loanPurpose: "",
 };
 
-function reducer(state = initialState, action) {
+const initialStateCustomer = {
+  fullName: "",
+  nationalID: "",
+  createdAt: "",
+};
+
+function accountReducer(state = initialStateAccount, action) {
   switch (action.type) {
     case "account/deposit":
       return {
@@ -38,19 +44,30 @@ function reducer(state = initialState, action) {
   }
 }
 
-const store = createStore(reducer);
+function customerReducer(state = initialStateCustomer, action) {
+  switch (action.type) {
+    case "customer/createCustomer":
+      return {
+        fullName: action.payload.fullName,
+        nationalID: action.payload.nationalID,
+        createdAt: action.payload.createtAd,
+      };
+    case "customer/updateName":
+      return {
+        ...state,
+        fullName: action.payload.fullName,
+      };
+    default:
+      return state;
+  }
+}
 
-store.dispatch(deposit(500));
-console.log(store.getState());
+const rootReducer = combineReducers({
+  account: accountReducer,
+  customer: customerReducer,
+});
 
-store.dispatch(withdraw(100));
-console.log(store.getState());
-
-store.dispatch(requestLoan(1000, "Buy a car"));
-console.log(store.getState());
-
-store.dispatch(payLoan());
-console.log(store.getState());
+const store = createStore(rootReducer);
 
 function deposit(amount) {
   return { type: "account/deposit", payload: amount };
@@ -67,3 +84,41 @@ function requestLoan(amount, purpose) {
 function payLoan() {
   return { type: "account/payLoan" };
 }
+
+store.dispatch(deposit(500));
+console.log(store.getState().account);
+
+store.dispatch(withdraw(100));
+console.log(store.getState().account);
+
+store.dispatch(requestLoan(1000, "Buy a car"));
+console.log(store.getState().account);
+
+store.dispatch(payLoan());
+console.log(store.getState().account);
+
+function createCustomer(fullName, nationalID) {
+  return {
+    type: "customer/createCustomer",
+    payload: {
+      fullName: fullName,
+      nationalID: nationalID,
+      createtAd: new Date().toISOString(),
+    },
+  };
+}
+
+function updateName(fullName) {
+  return {
+    type: "customer/updateName",
+    payload: {
+      fullName: fullName,
+    },
+  };
+}
+
+store.dispatch(createCustomer("Jose Alberto", 75142449));
+console.log(store.getState().customer);
+
+store.dispatch(updateName("Jose Alberto Delgado Robles"));
+console.log(store.getState().customer);
