@@ -72,30 +72,21 @@ const store = createStore(rootReducer);
 function deposit(amount) {
   return { type: "account/deposit", payload: amount };
 }
+
 function withdraw(amount) {
   return { type: "account/withdraw", payload: amount };
 }
+
 function requestLoan(amount, purpose) {
   return {
     type: "account/requestLoan",
     payload: { amount: amount, purpose: purpose },
   };
 }
+
 function payLoan() {
   return { type: "account/payLoan" };
 }
-
-store.dispatch(deposit(500));
-console.log(store.getState().account);
-
-store.dispatch(withdraw(100));
-console.log(store.getState().account);
-
-store.dispatch(requestLoan(1000, "Buy a car"));
-console.log(store.getState().account);
-
-store.dispatch(payLoan());
-console.log(store.getState().account);
 
 function createCustomer(fullName, nationalID) {
   return {
@@ -118,7 +109,19 @@ function updateName(fullName) {
 }
 
 store.dispatch(createCustomer("Jose Alberto", 75142449));
-console.log(store.getState().customer);
+console.log(store.getState());
 
 store.dispatch(updateName("Jose Alberto Delgado Robles"));
-console.log(store.getState().customer);
+console.log(store.getState());
+
+store.dispatch(deposit(500));
+console.log(store.getState());
+
+store.dispatch(withdraw(100));
+console.log(store.getState());
+
+store.dispatch(requestLoan(1000, "Buy a car"));
+console.log(store.getState());
+
+store.dispatch(payLoan());
+console.log(store.getState());
