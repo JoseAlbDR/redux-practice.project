@@ -1,15 +1,21 @@
 import { useState } from "react";
-
+import { useDispatch } from "react-redux";
 function AccountOperations() {
   const [depositAmount, setDepositAmount] = useState("");
   const [withdrawalAmount, setWithdrawalAmount] = useState("");
   const [loanAmount, setLoanAmount] = useState("");
   const [loanPurpose, setLoanPurpose] = useState("");
   const [currency, setCurrency] = useState("USD");
+  const dispatch = useDispatch();
 
-  function handleDeposit() {}
+  function handleDeposit() {
+    dispatch({ type: "account/deposit", payload: depositAmount });
+    setDepositAmount("");
+  }
 
-  function handleWithdrawal() {}
+  function handleWithdrawal() {
+    dispatch({ type: "account/withdraw", payload: withdrawalAmount });
+  }
 
   function handleRequestLoan() {}
 
