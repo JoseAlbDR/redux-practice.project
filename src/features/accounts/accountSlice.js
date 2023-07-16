@@ -46,8 +46,9 @@ export function deposit(amount, currency) {
       `https://api.frankfurter.app/latest?amount=${amount}&from=${currency}&to=USD`
     );
     const data = await res.json();
-    console.log(data);
+    const converted = data.rates.USD;
     // return action
+    return { type: "account/deposit", payload: converted };
   };
 }
 
