@@ -23,6 +23,7 @@ function AccountOperations() {
   }
 
   function handleRequestLoan() {
+    console.log("request");
     if (!loanAmount || !loanPurpose) return;
     dispatch(requestLoan(loanAmount, loanPurpose));
     setLoanAmount("");
@@ -30,7 +31,8 @@ function AccountOperations() {
   }
 
   function handlePayLoan() {
-    if (!loanAmount) return;
+    console.log(loanAmount);
+    if (!account.loan) return;
     dispatch(payLoan());
   }
 
